@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "MCAS Proxy Bypass",
+  "version": "1.0.0",
+  "description": "Intercepts Microsoft MCAS proxy redirects and sends you directly to the original URL instead.",
+  "icons": {
+    "48": "icons/icon.svg",
+    "96": "icons/icon.svg"
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "*://mcas-proxyweb.mcas.ms/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "mcas-remover@posteo.de",
+      "strict_min_version": "91.0"
+    }
+  }
+}

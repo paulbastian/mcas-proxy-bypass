@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Shield body -->
+  <path d="M24 4L42 11v13c0 11-8 19-18 21C14 43 6 35 6 24V11z" fill="#1565C0"/>
+  <!-- Eye outline -->
+  <path d="M24 22c-5 0-9 2-9 2s4 6 9 6 9-6 9-6-4-2-9-2z" fill="none" stroke="white" stroke-width="1.8"/>
+  <!-- Pupil -->
+  <circle cx="24" cy="24" r="2.5" fill="white"/>
+  <!-- Diagonal strikethrough (no surveillance) -->
+  <line x1="13" y1="13" x2="35" y2="35" stroke="#EF5350" stroke-width="3.2" stroke-linecap="round"/>
+</svg>

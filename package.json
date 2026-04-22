@@ -1,0 +1,12 @@
+{
+  "name": "mcas-proxy-bypass",
+  "version": "1.0.0",
+  "description": "Firefox extension to bypass Microsoft MCAS proxy",
+  "private": true,
+  "scripts": {
+    "test": "node --test test/bypassMcasProxy.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
