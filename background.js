@@ -43,10 +43,18 @@ function bypassMcasProxy(interceptedUrl) {
 
 // Guard allows the module to be imported in Node.js for unit testing.
 if (typeof browser !== 'undefined') {
+  let bypassCount = 0;
+
+  browser.browserAction.setBadgeBackgroundColor({ color: '#1565C0' });
+
   browser.webRequest.onBeforeRequest.addListener(
     (details) => {
       const cleanedUrl = bypassMcasProxy(details.url);
-      return cleanedUrl ? { redirectUrl: cleanedUrl } : {};
+      if (!cleanedUrl) return {};
+
+      bypassCount++;
+      browser.browserAction.setBadgeText({ text: String(bypassCount) });
+      return { redirectUrl: cleanedUrl };
     },
     { urls: ['*://mcas-proxyweb.mcas.ms/*'] },
     ['blocking']

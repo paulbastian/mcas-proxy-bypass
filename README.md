@@ -14,7 +14,19 @@ This breaks password managers and routes your traffic through Microsoft's inspec
 
 ## What the extension does
 
-It intercepts requests to `mcas-proxyweb.mcas.ms`, extracts the original destination URL, strips the `.mcas.ms` proxy suffix and any MCAS tracking parameters, and redirects you there directly.
+It intercepts requests to `mcas-proxyweb.mcas.ms` before they reach Microsoft's servers, extracts the original destination URL, strips the `.mcas.ms` proxy suffix and any MCAS tracking parameters, and redirects you there directly. No data is ever sent to MCAS.
+
+A counter in the toolbar icon shows how many redirects have been bypassed in the current session.
+
+### Pinning the toolbar icon
+
+After installation the icon sits in the Extensions overflow menu and is not visible by default:
+
+1. Click the **puzzle piece** icon (Extensions) in the Firefox toolbar
+2. Find **MCAS Proxy Bypass** in the list
+3. Click the **pin** icon next to it
+
+The icon will now appear in the toolbar permanently and the bypass counter will be visible at a glance.
 
 ## Installation
 
