@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #ffffff;
+      --text: #222222;
+      --border: #e0e0e0;
+      --border-item: #f0f0f0;
+      --muted: #888888;
+      --link: #1565C0;
+      --hover-bg: #f5f8ff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1e1e1e;
+        --text: #e0e0e0;
+        --border: #3a3a3a;
+        --border-item: #2c2c2c;
+        --muted: #888888;
+        --link: #90b8f8;
+        --hover-bg: #2a2d3a;
+      }
+    }
+    body {
+      width: 400px;
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--bg);
+    }
+    h1 {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    #empty {
+      padding: 16px 12px;
+      color: var(--muted);
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      max-height: 480px;
+      overflow-y: auto;
+    }
+    li + li {
+      border-top: 1px solid var(--border-item);
+    }
+    li a {
+      display: block;
+      padding: 8px 12px;
+      color: var(--link);
+      text-decoration: none;
+      word-break: break-all;
+      line-height: 1.4;
+    }
+    li a:hover {
+      background: var(--hover-bg);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bypassed MCAS links</h1>
+  <p id="empty" hidden>No links bypassed this session.</p>
+  <ul id="list"></ul>
+  <script src="popup.js"></script>
+</body>
+</html>

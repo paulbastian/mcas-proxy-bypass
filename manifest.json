@@ -12,11 +12,13 @@
       "48": "icons/icon.svg",
       "96": "icons/icon.svg"
     },
-    "default_title": "MCAS Proxy Bypass"
+    "default_title": "MCAS Proxy Bypass",
+    "default_popup": "popup.html"
   },
   "permissions": [
     "webRequest",
     "webRequestBlocking",
+    "tabs",
     "*://mcas-proxyweb.mcas.ms/*"
   ],
   "background": {
