@@ -18,6 +18,12 @@ It intercepts requests to `mcas-proxyweb.mcas.ms` before they reach Microsoft's 
 
 A counter in the toolbar icon shows how many redirects have been bypassed in the current session.
 
+### Deleting mcas.ms cookies
+
+Outlook and other Microsoft 365 apps can get stuck in a state where MCAS keeps logging you out. Clearing the `mcas.ms` cookies usually fixes it.
+
+Click the toolbar icon and press **Delete mcas.ms cookies**. The extension removes every cookie on the `mcas.ms` domain (including subdomains like `mcas-proxyweb.mcas.ms`) and reloads any open `mcas.ms` tabs so you land on a fresh login.
+
 ### Pinning the toolbar icon
 
 After installation the icon sits in the Extensions overflow menu and is not visible by default:
