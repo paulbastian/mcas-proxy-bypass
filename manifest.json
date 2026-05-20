@@ -19,7 +19,9 @@
     "webRequest",
     "webRequestBlocking",
     "tabs",
-    "*://mcas-proxyweb.mcas.ms/*"
+    "cookies",
+    "*://mcas-proxyweb.mcas.ms/*",
+    "*://*.mcas.ms/*"
   ],
   "background": {
     "scripts": ["background.js"],

@@ -39,6 +39,28 @@
       padding: 12px;
       border-bottom: 1px solid var(--border);
     }
+    #actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    #delete-cookies {
+      font: inherit;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+    #delete-cookies:hover {
+      background: var(--hover-bg);
+    }
+    #delete-status {
+      color: var(--muted);
+    }
     #empty {
       padding: 16px 12px;
       color: var(--muted);
@@ -69,6 +91,10 @@
 </head>
 <body>
   <h1>Bypassed MCAS links</h1>
+  <div id="actions">
+    <button id="delete-cookies" type="button">Delete mcas.ms cookies</button>
+    <span id="delete-status" aria-live="polite"></span>
+  </div>
   <p id="empty" hidden>No links bypassed this session.</p>
   <ul id="list"></ul>
   <script src="popup.js"></script>
