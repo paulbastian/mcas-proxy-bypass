@@ -2,7 +2,7 @@
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { bypassMcasProxy } = require('../background.js');
+const { bypassMcasProxy, bypassTeamsSafeLinks } = require('../background.js');
 
 // Wraps a destination URL as the originalUrl param on the MCAS proxy entry point.
 function wrap(url) {
@@ -87,4 +87,32 @@ test('full proxy URL: extracts, decodes, strips .mcas.ms and McasTsid', () => {
     'https://app.example.com/browse/PROJ-42' +
     '?focusedCommentId=10001&sourceType=mention';
   assert.equal(bypassMcasProxy(input), expected);
+});
+
+// --- bypassTeamsSafeLinks ---
+
+test('safelinks: extracts the url param from a Teams Safe Links wrapper', () => {
+  const input =
+    'https://statics.teams.cdn.office.net/evergreen-assets/safelinks/2/atp-safelinks.html' +
+    '?url=https://www.example.com/faq&locale=de-de&pc=opaqueblob';
+  assert.equal(bypassTeamsSafeLinks(input), 'https://www.example.com/faq');
+});
+
+test('safelinks: returns null when host is not the Teams Safe Links CDN', () => {
+  const input = 'https://evil.example.com/evergreen-assets/safelinks/2/atp-safelinks.html?url=https://x.example.com/';
+  assert.equal(bypassTeamsSafeLinks(input), null);
+});
+
+test('safelinks: returns null when path is not the atp-safelinks.html page', () => {
+  const input = 'https://statics.teams.cdn.office.net/evergreen-assets/other.html?url=https://x.example.com/';
+  assert.equal(bypassTeamsSafeLinks(input), null);
+});
+
+test('safelinks: returns null when the url param is missing', () => {
+  const input = 'https://statics.teams.cdn.office.net/evergreen-assets/safelinks/2/atp-safelinks.html?locale=de-de';
+  assert.equal(bypassTeamsSafeLinks(input), null);
+});
+
+test('safelinks: returns null for a malformed input URL', () => {
+  assert.equal(bypassTeamsSafeLinks('not a url'), null);
 });

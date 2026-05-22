@@ -1,6 +1,8 @@
 'use strict';
 
 const MCAS_SUFFIX = '.mcas.ms';
+const ATP_SAFELINKS_HOST = 'statics.teams.cdn.office.net';
+const ATP_SAFELINKS_PATH = '/evergreen-assets/safelinks/2/atp-safelinks.html';
 
 // Extracts the destination from a mcas-proxyweb.mcas.ms interception URL,
 // strips the .mcas.ms proxy hostname suffix and MCAS tracking params, and
@@ -41,6 +43,23 @@ function bypassMcasProxy(interceptedUrl) {
   return originalUrl.href;
 }
 
+// Extracts the wrapped destination from a Teams Safe Links page URL
+// (statics.teams.cdn.office.net/.../atp-safelinks.html?url=…) and returns it
+// verbatim, or null if the URL is malformed or missing the `url` param.
+function bypassTeamsSafeLinks(interceptedUrl) {
+  let safelinksUrl;
+  try {
+    safelinksUrl = new URL(interceptedUrl);
+  } catch {
+    return null;
+  }
+
+  if (safelinksUrl.hostname !== ATP_SAFELINKS_HOST) return null;
+  if (safelinksUrl.pathname !== ATP_SAFELINKS_PATH) return null;
+
+  return safelinksUrl.searchParams.get('url');
+}
+
 // Guard allows the module to be imported in Node.js for unit testing.
 if (typeof browser !== 'undefined') {
   const bypassedUrls = [];
@@ -60,6 +79,19 @@ if (typeof browser !== 'undefined') {
     ['blocking']
   );
 
+  browser.webRequest.onBeforeRequest.addListener(
+    (details) => {
+      const cleanedUrl = bypassTeamsSafeLinks(details.url);
+      if (!cleanedUrl) return {};
+
+      bypassedUrls.push(cleanedUrl);
+      browser.browserAction.setBadgeText({ text: String(bypassedUrls.length) });
+      return { redirectUrl: cleanedUrl };
+    },
+    { urls: ['*://statics.teams.cdn.office.net/evergreen-assets/safelinks/2/atp-safelinks.html*'] },
+    ['blocking']
+  );
+
   browser.runtime.onMessage.addListener((message) => {
     if (message.type === 'getBypassedUrls') {
       return Promise.resolve([...bypassedUrls].reverse());
@@ -67,4 +99,4 @@ if (typeof browser !== 'undefined') {
   });
 }
 
-if (typeof module !== 'undefined') module.exports = { bypassMcasProxy };
+if (typeof module !== 'undefined') module.exports = { bypassMcasProxy, bypassTeamsSafeLinks };

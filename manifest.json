@@ -21,7 +21,8 @@
     "tabs",
     "cookies",
     "*://mcas-proxyweb.mcas.ms/*",
-    "*://*.mcas.ms/*"
+    "*://*.mcas.ms/*",
+    "*://statics.teams.cdn.office.net/*"
   ],
   "background": {
     "scripts": ["background.js"],

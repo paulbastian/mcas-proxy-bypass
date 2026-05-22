@@ -18,6 +18,12 @@ It intercepts requests to `mcas-proxyweb.mcas.ms` before they reach Microsoft's 
 
 A counter in the toolbar icon shows how many redirects have been bypassed in the current session.
 
+### Teams Safe Links
+
+Clicking an external link in Microsoft Teams does not navigate directly — the Teams client opens an intermediate page at `statics.teams.cdn.office.net/.../atp-safelinks.html` (Microsoft Defender Safe Links) that performs a reputation check before redirecting.
+
+The extension also intercepts that page, reads the wrapped destination from its `url` query parameter, and redirects you there directly. The reputation-check request is never made.
+
 ### Deleting mcas.ms cookies
 
 Outlook and other Microsoft 365 apps can get stuck in a state where MCAS keeps logging you out. Clearing the `mcas.ms` cookies usually fixes it.
