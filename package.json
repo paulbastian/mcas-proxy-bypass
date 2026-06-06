@@ -4,7 +4,7 @@
   "description": "Firefox extension to bypass Microsoft MCAS proxy",
   "private": true,
   "scripts": {
-    "test": "node --test test/bypassMcasProxy.test.js"
+    "test": "node --test test/*.test.js"
   },
   "engines": {
     "node": ">=18"

@@ -1,11 +1,12 @@
 'use strict';
 
 const MCAS_DOMAIN = 'mcas.ms';
+const MCAS_ORIGIN = `*://*.${MCAS_DOMAIN}/*`;
 
 // Reload mcas.ms tabs after cookie removal so the user sees a fresh login
 // instead of a stale page still holding the deleted session in memory.
 function reloadMcasTabs() {
-  return browser.tabs.query({ url: `*://*.${MCAS_DOMAIN}/*` }).then((tabs) => {
+  return browser.tabs.query({ url: MCAS_ORIGIN }).then((tabs) => {
     for (const tab of tabs) browser.tabs.reload(tab.id);
   });
 }
@@ -35,8 +36,16 @@ document.getElementById('delete-cookies').addEventListener('click', async () => 
   const button = document.getElementById('delete-cookies');
   const status = document.getElementById('delete-status');
   button.disabled = true;
-  status.textContent = 'Deleting…';
+  status.textContent = '';
   try {
+    // permissions.request must be the first await in a user-action handler;
+    // it's a no-op (returns true without prompting) once the permission is granted.
+    const granted = await browser.permissions.request({ origins: [MCAS_ORIGIN] });
+    if (!granted) {
+      status.textContent = 'Permission denied.';
+      return;
+    }
+    status.textContent = 'Deleting…';
     const count = await deleteMcasCookies();
     await reloadMcasTabs();
     status.textContent = count === 0

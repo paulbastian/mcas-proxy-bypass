@@ -44,8 +44,9 @@ function bypassMcasProxy(interceptedUrl) {
 }
 
 // Extracts the wrapped destination from a Teams Safe Links page URL
-// (statics.teams.cdn.office.net/.../atp-safelinks.html?url=…) and returns it
-// verbatim, or null if the URL is malformed or missing the `url` param.
+// (statics.teams.cdn.office.net/.../atp-safelinks.html?url=…) and returns it,
+// or null if the URL is malformed, missing the `url` param, or points at a
+// non-http(s) scheme.
 function bypassTeamsSafeLinks(interceptedUrl) {
   let safelinksUrl;
   try {
@@ -57,7 +58,20 @@ function bypassTeamsSafeLinks(interceptedUrl) {
   if (safelinksUrl.hostname !== ATP_SAFELINKS_HOST) return null;
   if (safelinksUrl.pathname !== ATP_SAFELINKS_PATH) return null;
 
-  return safelinksUrl.searchParams.get('url');
+  const encodedOriginalUrl = safelinksUrl.searchParams.get('url');
+  if (!encodedOriginalUrl) return null;
+
+  let originalUrl;
+  try {
+    originalUrl = new URL(decodeURIComponent(encodedOriginalUrl));
+  } catch {
+    return null;
+  }
+
+  // Only handle standard web URLs — guard against javascript: and similar schemes.
+  if (originalUrl.protocol !== 'https:' && originalUrl.protocol !== 'http:') return null;
+
+  return originalUrl.href;
 }
 
 // Guard allows the module to be imported in Node.js for unit testing.

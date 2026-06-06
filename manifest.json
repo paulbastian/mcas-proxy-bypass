@@ -4,13 +4,13 @@
   "version": "1.0.0",
   "description": "Intercepts Microsoft MCAS proxy redirects and sends you directly to the original URL instead.",
   "icons": {
-    "48": "icons/icon.svg",
-    "96": "icons/icon.svg"
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
   },
   "browser_action": {
     "default_icon": {
-      "48": "icons/icon.svg",
-      "96": "icons/icon.svg"
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
     },
     "default_title": "MCAS Proxy Bypass",
     "default_popup": "popup.html"
@@ -18,11 +18,12 @@
   "permissions": [
     "webRequest",
     "webRequestBlocking",
-    "tabs",
     "cookies",
     "*://mcas-proxyweb.mcas.ms/*",
-    "*://*.mcas.ms/*",
     "*://statics.teams.cdn.office.net/*"
+  ],
+  "optional_permissions": [
+    "*://*.mcas.ms/*"
   ],
   "background": {
     "scripts": ["background.js"],
