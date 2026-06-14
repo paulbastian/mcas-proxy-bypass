@@ -8,5 +8,12 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "webExt": {
+    "ignoreFiles": [
+      "package.json",
+      "package-lock.json",
+      "test"
+    ]
   }
 }
